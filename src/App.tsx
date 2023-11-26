@@ -13,7 +13,7 @@ function App() {
     if (typeof btnVal === 'string') {
       switch(btnVal) {
         case 'AC':
-          setCalcVal(0)
+          handleReset()
           break
         case '+-':
           handleInvert()
@@ -44,6 +44,10 @@ function App() {
 
   const handleNumber = (val: number) => {
     console.log('handleNumber', val)
+  }
+
+  const handleReset = () => {
+    setCalcVal(0)
   }
 
   const handleInvert = () => {
