@@ -5,14 +5,70 @@ import Button from './components/Button'
 
 const buttonVals = ['AC', '+-', '%', '/', 7, 8, 9, '*', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '=']
 
-const handleClick = (value: string | number) => {
-  console.log(typeof value)
-}
 
 function App() {
+  const [calcVal, setCalcVal] = useState(0)
+  
+  const handleClick = (btnVal: string | number) => {
+    if (typeof btnVal === 'string') {
+      switch(btnVal) {
+        case 'AC':
+          setCalcVal(0)
+          break
+        case '+-':
+          handleInvert()
+          break
+        case '%':
+          handlePercent()
+          break
+        case '/': 
+        case '*':
+        case '-':
+        case '+':
+          handleOperator(btnVal)
+          break
+        case '.':
+          handleDecimal()
+          break
+        case '=':
+          handleEquals()
+          break
+        default:
+          console.error(`${btnVal} is not recognized`)
+          break
+      }
+    }
+
+    if (typeof btnVal === 'number') handleNumber(btnVal)
+  }
+
+  const handleNumber = (val: number) => {
+    console.log('handleNumber', val)
+  }
+
+  const handleInvert = () => {
+    console.log('handleInvert')
+  }
+
+  const handlePercent = () => {
+    console.log('handlePercent')
+  }
+
+  const handleOperator = (opp: string) => {
+    console.log('handleOpperator', opp)
+  }
+
+  const handleDecimal = () => {
+    console.log('handleDecimal')
+  }
+
+  const handleEquals = () => {
+    console.log('handleEquals')
+  }
+
   return (
     <div className='calc-wrapper'>
-      <Screen value={123}/>
+      <Screen value={calcVal}/>
 
       <div className="button-wrapper">
         {buttonVals.map((btn, i) => {
