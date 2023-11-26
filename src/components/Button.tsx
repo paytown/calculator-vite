@@ -1,12 +1,13 @@
 import { PropsWithChildren } from "react";
 
 interface ButtonProps {
-  onClick?: (e: Event) => void;
+  onClick: (e: Event) => void;
+  className: string;
 }
 
-export default function Button({ children }: PropsWithChildren<ButtonProps>) {
+export default function Button({ children, className }: PropsWithChildren<ButtonProps>) {
   return (
-    <button className="button">
+    <button className={className}>
       {children}
     </button>
   )
