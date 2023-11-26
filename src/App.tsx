@@ -65,6 +65,7 @@ function App() {
     setCurrentVal(`${parseFloat(currentVal) * .01}`)
   }
 
+  // TODO: All working except for setting the value if the opperator is clicked a second time
   const handleOperator = (op: string) => {
     setOperator(op)
     setPreviousVal(currentVal)
