@@ -7,9 +7,13 @@ const buttonVals = ['AC', '+-', '%', '/', 7, 8, 9, '*', 4, 5, 6, '-', 1, 2, 3, '
 
 
 function App() {
-  const [calcVal, setCalcVal] = useState(0)
+  const [currentVal, setCurrentVal] = useState('0')
+  const [previousVal, setPreviousVal] = useState('0')
+  const [operator, setOperator] = useState('')
   
   const handleClick = (btnVal: string | number) => {
+    if (typeof btnVal === 'number' || btnVal === '.') return handleNumber(btnVal)
+
     if (typeof btnVal === 'string') {
       switch(btnVal) {
         case 'AC':
@@ -27,9 +31,6 @@ function App() {
         case '+':
           handleOperator(btnVal)
           break
-        case '.':
-          handleDecimal()
-          break
         case '=':
           handleEquals()
           break
@@ -38,41 +39,66 @@ function App() {
           break
       }
     }
-
-    if (typeof btnVal === 'number') handleNumber(btnVal)
   }
 
-  const handleNumber = (val: number) => {
-    console.log('handleNumber', val)
+  const handleNumber = (val: number | '.') => {
+    if (val === '.' && currentVal.includes('.')) return
+
+    if (currentVal === "0") {
+      return setCurrentVal(`${val}`)
+    }
+    
+    return setCurrentVal(`${currentVal}${val}`)
   }
 
   const handleReset = () => {
-    setCalcVal(0)
+    setCurrentVal('0')
+    setPreviousVal('0')
+    setOperator('')
   }
 
   const handleInvert = () => {
-    console.log('handleInvert')
+    setCurrentVal(`${parseFloat(currentVal) * -1}`)
   }
 
   const handlePercent = () => {
-    console.log('handlePercent')
+    setCurrentVal(`${parseFloat(currentVal) * .01}`)
   }
 
-  const handleOperator = (opp: string) => {
-    console.log('handleOpperator', opp)
-  }
-
-  const handleDecimal = () => {
-    console.log('handleDecimal')
+  const handleOperator = (op: string) => {
+    setOperator(op)
+    setPreviousVal(currentVal)
+    setCurrentVal('0')
   }
 
   const handleEquals = () => {
-    console.log('handleEquals')
+    const current = parseFloat(currentVal)
+    const previous = parseFloat(previousVal)
+   
+    switch (operator) {
+      case "+":
+        setCurrentVal(`${previous + current}`)
+        break
+      case "-":
+        setCurrentVal(`${previous - current}`)
+        break
+      case "*":
+        setCurrentVal(`${previous * current}`)
+        break
+      case "/":
+        setCurrentVal(`${previous / current}`)
+        break
+      default:
+        return
+    }
+
+    setOperator('')
+    setPreviousVal('')
   }
 
   return (
     <div className='calc-wrapper'>
-      <Screen value={calcVal}/>
+      <Screen value={currentVal != "0" ? currentVal : previousVal}/>
 
       <div className="button-wrapper">
         {buttonVals.map((btn, i) => {

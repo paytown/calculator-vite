@@ -1,5 +1,5 @@
 interface ScreenProps {
-  value: number;
+  value: string;
 }
 
 export default function Screen({ value }: ScreenProps) {
